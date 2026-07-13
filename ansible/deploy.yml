@@ -3,7 +3,7 @@
   hosts: worker
   become: yes # Run tasks as root
   vars:
-    image_name: "vikas636/bookstore"
+    image_name: "chethan433/bookstore"
     image_tag: "latest"
     container_name: "bookstore-app"
     host_port: "80"
