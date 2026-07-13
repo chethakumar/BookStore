@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  bookstore-app:
+    build: .
+    image: vikas636/bookstore:latest
+    container_name: bookstore-app
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    volumes:
+      # Optional: bind mount for local development without rebuilding
+      # - ./src/main/webapp:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf

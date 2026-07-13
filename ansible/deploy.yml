@@ -1,0 +1,49 @@
+---
+- name: Deploy Book Store App to Worker Node
+  hosts: worker
+  become: yes # Run tasks as root
+  vars:
+    image_name: "vikas636/bookstore"
+    image_tag: "latest"
+    container_name: "bookstore-app"
+    host_port: "80"
+    container_port: "80"
+
+  tasks:
+    - name: Ensure Docker is installed (Optional but recommended check)
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull latest Docker image
+      docker_image:
+        name: "{{ image_name }}:{{ image_tag }}"
+        source: pull
+      # Alternatively using shell if docker python module is not available:
+      # shell: "docker pull {{ image_name }}:{{ image_tag }}"
+
+    - name: Stop existing container
+      shell: "docker stop {{ container_name }} || true"
+      ignore_errors: yes
+
+    - name: Remove old container
+      shell: "docker rm {{ container_name }} || true"
+      ignore_errors: yes
+
+    - name: Run new Docker container
+      shell: |
+        docker run -d \
+        --name {{ container_name }} \
+        -p {{ host_port }}:{{ container_port }} \
+        --restart unless-stopped \
+        {{ image_name }}:{{ image_tag }}
+      
+    - name: Verify container is running
+      shell: "docker ps | grep {{ container_name }}"
+      register: container_status
+      failed_when: container_status.rc != 0
+
+    - name: Display Container Status
+      debug:
+        msg: "Container {{ container_name }} is successfully running."
