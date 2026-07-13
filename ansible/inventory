@@ -1,4 +1,2 @@
 [worker]
-# Replace with the actual IP address or hostname of your worker node
-# e.g., 192.168.1.100 ansible_user=ubuntu
-worker-node ansible_user=ubuntu
+172.31.25.162 ansible_user=ansible
