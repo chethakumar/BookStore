@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'chethan433/ansirepo'
+        DOCKER_IMAGE = 'chethan433/bookstore'
         DOCKER_TAG = 'latest'
         DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'
         ANSIBLE_HOST = 'worker-node'
